@@ -17,6 +17,9 @@ FSJS project 2 - List Filter and Pagination
    scoped to that function.
 ***/
 
+const numberOfPages = 10;
+const studentDetailsDiv = document.querySelector('.student-details');
+
 
 
 
