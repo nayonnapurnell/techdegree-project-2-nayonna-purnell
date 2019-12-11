@@ -45,6 +45,18 @@ const appendPageLinks = (list) => {
 
   
 
+  for (i = 0; i < totalNumberOfPages.length; i++) {
+    const li = document.createElement('li');
+    page.appendChild(li);
+    const a = document.createElement('a');
+    li.appendChild(a);
+    a.textContent = '#';
+
+    a.addEventListener('click', (event))
+  }
+
+
+
  
   
   
