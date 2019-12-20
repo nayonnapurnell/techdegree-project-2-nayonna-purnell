@@ -5,67 +5,76 @@ Developer: Nayonna Purnell
 Date: December 5, 2019
 ******************************************/
    
-const studentlistItems = document.querySelectorAll('.student-listItems'); // The listItems of all students 
-const listItems = document.getElementsByTagName('li'); //grabs each student individually
+const listItems = document.querySelectorAll('.student-item'); //grabs each student individually
 const studentsPerPage = 10;  //The number of students per page
+const page = document.querySelector('.page'); //the top level parentNode
 
 
 
 // showPage tells the program to post 10 listItems items per page.
-const showPage = (listItems, studentsPerPage) => {
-  
-  const startIndex = (listItems * studentsPerPage) - studentsPerPage;
-  const endIndex = (listItems * studentsPerPage) - 1;
+const showPage = (list, page) => {
+  const startIndex = (studentsPerPage * page) - studentsPerPage;
+  const endIndex = studentsPerPage * page;
 
-  for(var i = 0; i < listItems.length; i++) {
+  for(let i = 0; i < list.length; i++) {
     if (i >= startIndex && i <= endIndex)
       {
-        listItems[i].style.display === 'none' ;
+        list[i].style.display = 'block';
       }
     else {
-        listItems[i].style.display === 'block';
+      list[i].style.display = 'none' ;
       }
   }
 }
-(showPage(listItem, 1));
+showPage(listItems, 1);
+
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
 
-const appendPageLinks = (listItems) => {
+const appendPageLinks = (list) => {
   //number of pages needed for the total amount of student list items
   //In this example there is 54
-  const totalNumberOfPages = Math.ceil(listItems.length/studentsPerPage);
+  let totalNumberOfPages = Math.ceil(list.length/studentsPerPage);
 
 
 //Select the page and append the pagination
-  let page = document.querySelectorAll('.page');
-  let pagination = document.createElement('div');
+  const pagination = document.createElement('div');
   pagination.className='pagination';
   page.appendChild(pagination);
 
-  //Create the Ul and append it to the pagination
+  //Create the Ul elements for the pagination
   let paginationUl = document.createElement('ul');
-  pagination.appendChild(paginationUl);
 
   for (i = 0; i < totalNumberOfPages.length; i++) {
-     let li = document.createElement('li');
-     let a = document.createElement('a');
+     
+    let li = document.createElement('li');
+    let a = document.createElement('a');
+
+     //Append the children nodes to their parents in the pagination
+     pagination.appendChild(paginationUl);
      paginationUl.appendChild(li);
+     li.appendChild(a);
      a.href = '#';
+     if (i === 0) {
+      a.className = 'active';
+  }
 
     //An event listener for the 'A Tags'
-     a.addEventListener('click', (event) => {
-     let pageLinks = document.getElementsByTagName('a');
-     for (i = 0; i < pageLinks.length; i++) {
+     a.addEventListener('click', (e) => {
+     let pageLinks = document.querySelectorAll('a');
+     for (let i = 0; i < pageLinks.length; i++) {
       pageLinks[i].className = ' ';
      }
-     event.target.className = 'active';
-     
-      showPage(li, event.target.textContent);
+
+    e.target.className = 'active';
+
+    showPage(list, 0);
+
     });
-}
+
+  }
 }
 appendPageLinks(listItems);
 
