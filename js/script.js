@@ -5,35 +5,35 @@ Developer: Nayonna Purnell
 Date: December 5, 2019
 ******************************************/
    
-const listItems = document.querySelectorAll('.student-item'); //grabs each student individually
+const page = document.querySelector('.page'); //Parent Node
+const list = document.querySelector('.student-list');//List of students- child elements 
+const li = document.querySelectorAll('.student-item'); //grabs each student individually
 const studentsPerPage = 10;  //The number of students per page
-const page = document.querySelector('.page'); //the top level parentNode
-
 
 
 // showPage tells the program to post 10 listItems items per page.
 const showPage = (list, page) => {
+  
   const startIndex = (studentsPerPage * page) - studentsPerPage;
   const endIndex = studentsPerPage * page;
 
-  for(let i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     if (i >= startIndex && i <= endIndex)
       {
         list[i].style.display = 'block';
       }
     else {
-      list[i].style.display = 'none' ;
+        list[i].style.display = 'none' ;
       }
   }
 }
-showPage(listItems, 1);
 
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
+// /*** 
+//    Create the `appendPageLinks function` to generate, append, and add 
+//    functionality to the pagination buttons.
+// ***/
 
-const appendPageLinks = (list) => {
+ const appendPageLinks = (list) => {
   //number of pages needed for the total amount of student list items
   //In this example there is 54
   let totalNumberOfPages = Math.ceil(list.length/studentsPerPage);
@@ -47,7 +47,7 @@ const appendPageLinks = (list) => {
   //Create the Ul elements for the pagination
   let paginationUl = document.createElement('ul');
 
-  for (i = 0; i < totalNumberOfPages.length; i++) {
+  for (i = 0; i < page.length; i++) {
      
     let li = document.createElement('li');
     let a = document.createElement('a');
