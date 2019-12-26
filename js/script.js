@@ -4,21 +4,18 @@ FSJS project 2 - listItems Filter and Pagination
 Developer: Nayonna Purnell
 Date: December 5, 2019
 ******************************************/
-   
-const page = document.querySelector('.page'); //Parent Node
-const list = document.querySelector('.student-list');//List of students- child elements 
-const li = document.querySelectorAll('.student-item'); //grabs each student individually
+const studentList = document.querySelectorAll('.student-item');//List of students- child elements 
 const studentsPerPage = 10;  //The number of students per page
 
 
 // showPage tells the program to post 10 listItems items per page.
-const showPage = (list, page) => {
+function showPage (list, page) {
   
-  const startIndex = (studentsPerPage * page) - studentsPerPage;
-  const endIndex = studentsPerPage * page;
+  const startIndex = (page * studentsPerPage) - studentsPerPage;
+  const endIndex = page * studentsPerPage;
 
   for (let i = 0; i < list.length; i++) {
-    if (i >= startIndex && i <= endIndex)
+    if (i >= startIndex && i < endIndex)
       {
         list[i].style.display = 'block';
       }
@@ -26,55 +23,55 @@ const showPage = (list, page) => {
         list[i].style.display = 'none' ;
       }
   }
-}
+};
 
 // /*** 
 //    Create the `appendPageLinks function` to generate, append, and add 
 //    functionality to the pagination buttons.
 // ***/
 
- const appendPageLinks = (list) => {
+ function appendPageLinks (list) {
   //number of pages needed for the total amount of student list items
   //In this example there is 54
-  let totalNumberOfPages = Math.ceil(list.length/studentsPerPage);
+  const totalNumberOfPages = Math.ceil(studentList.length/studentsPerPage);
 
 
 //Select the page and append the pagination
-  const pagination = document.createElement('div');
-  pagination.className='pagination';
-  page.appendChild(pagination);
+  const page = document.querySelector('.page');
+  const div = document.createElement('div');
+  div.className='pagination';
+  page.appendChild(div);
 
   //Create the Ul elements for the pagination
-  let paginationUl = document.createElement('ul');
+  let ul = document.createElement('ul');
+  div.appendChild(ul);
 
-  for (i = 0; i < page.length; i++) {
-     
-    let li = document.createElement('li');
-    let a = document.createElement('a');
+  for (let i = 0; i < totalNumberOfPages; i++) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
 
-     //Append the children nodes to their parents in the pagination
-     pagination.appendChild(paginationUl);
-     paginationUl.appendChild(li);
-     li.appendChild(a);
-     a.href = '#';
-     if (i === 0) {
-      a.className = 'active';
-  }
-
-    //An event listener for the 'A Tags'
-     a.addEventListener('click', (e) => {
-     let pageLinks = document.querySelectorAll('a');
-     for (let i = 0; i < pageLinks.length; i++) {
-      pageLinks[i].className = ' ';
+    li.appendChild(a);
+    ul.appendChild(li);
+    
+    a.href = '#';
+    a.textContent = i +1;
+    
+    a.addEventListener('click', (event) => {
+      const pageLinks = document.getElementsByTagName('a');
+      for (let i = 0; i < totalNumberOfPages; i++) {
+        pageLinks[i].className= ' ';
+      
      }
-
-    e.target.className = 'active';
-
-    showPage(list, 0);
-
+      let e = event.target;
+      e.className = 'active';
+    
+    showPage(studentList, event.target.textContent);
     });
-
+  }  
   }
-}
-appendPageLinks(listItems);
+ 
+
+showPage(studentList, 1);
+appendPageLinks(studentList);
+
 
